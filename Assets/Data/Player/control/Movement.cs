@@ -2,25 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour, Command
+public class Movement: Command
 {
-    private Vector3 pos;
-    private CharacterController characterController;
     private Player player;
-    
+    private float xAxis;
+    private float zAxis;
+
     public Movement(GameObject playerObj)
     {
         player = playerObj.GetComponent<Player>();
-        characterController = playerObj.GetComponent<CharacterController>();
     }
     public void Execute()
     {
-        CalculateDirection();
-        characterController.Move(pos * player.speed * Time.deltaTime);
-    }
-
-    private void CalculateDirection()
-    {
-        pos = player.transform.right * Input.GetAxis("Horizontal") + player.transform.forward * Input.GetAxis("Vertical");
+        xAxis = Input.GetAxis("Horizontal") * player.speed * Time.deltaTime;
+        zAxis = Input.GetAxis("Vertical") * player.speed * Time.deltaTime;
+        player.transform.Translate(xAxis, 0, zAxis);
     }
 }
