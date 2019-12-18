@@ -16,6 +16,7 @@ public class Movement: Command
     {
         xAxis = Input.GetAxis("Horizontal") * player.speed * Time.deltaTime;
         zAxis = Input.GetAxis("Vertical") * player.speed * Time.deltaTime;
-        player.transform.Translate(xAxis, 0, zAxis);
+        Move.pos = new Vector3(xAxis, 0, zAxis);
+        player.transform.Translate(Move.pos);
     }
 }

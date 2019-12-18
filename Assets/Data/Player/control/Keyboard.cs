@@ -19,17 +19,21 @@ public class Keyboard : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.W) 
-            || Input.GetKey(KeyCode.A) 
-            || Input.GetKey(KeyCode.S) 
+        if (playersObj.IsGrounded)
+        {
+            if (Input.GetKey(KeyCode.W)
+            || Input.GetKey(KeyCode.A)
+            || Input.GetKey(KeyCode.S)
             || Input.GetKey(KeyCode.D))
-            movement.Execute();
+                movement.Execute();
+            doubleJump.Reset();
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jump.Execute();
             doubleJump.Execute();
+            if (playersObj.HasTouchedWall)
+                playersObj.WallJump();
         }
-        if (playersObj.IsGrounded)
-            doubleJump.Reset();
     }
 }
