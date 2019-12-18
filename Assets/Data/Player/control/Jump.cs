@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class Jump : Command
 {
-    Rigidbody rigidbody;
-
+    protected Rigidbody rigidbody;
+    protected Model model;
+    protected float velocity;
+    
     public Jump(GameObject modelObj)
     {
+        velocity = 10;
         rigidbody = modelObj.GetComponent<Rigidbody>();
+        model = modelObj.GetComponent<Model>();
     }
-    public void Execute()
+    public virtual void Execute()
     {
-        rigidbody.AddForce(Vector3.up * 7, ForceMode.Impulse);
+        if (model.IsGrounded)
+            rigidbody.velocity = Vector3.up * velocity;
     }
 }
