@@ -9,6 +9,7 @@ public class DoorController : DetectorController
     private float doorAnimOpenHasOpened;
     private float doorAnimOpenHasClosed;
     public Items.ToUse.GUI gui;
+    private const int animEnd = 95;
 
     enum DoorState
     {
@@ -17,13 +18,12 @@ public class DoorController : DetectorController
     }
 
     DoorState doorState = new DoorState();
-
+    
     void Start()
     {
         gui.DisableInfo();
-        doorState = DoorState.Closed;
-        doorAnimOpenHasOpened = (anim["Door_Open"].length / 100) * 95;
-        doorAnimOpenHasClosed = (anim["Door_Close"].length / 100) * 95;
+        SetStateToClosed();
+        CalculateStateOfAnimationsThatComingToEnd();
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -58,25 +58,54 @@ public class DoorController : DetectorController
         {
             if(player.HasKey)
             {
-                if (anim["Door_Open"].time > doorAnimOpenHasOpened)
+                if (IsAnimOpenComingToEnd)
                     gui.RenderDefault();
-                if (anim["Door_Close"].time > doorAnimOpenHasClosed)
+                if (IsAnimCloseComingToEnd)
                     gui.RenderOpen();
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (doorState == DoorState.Closed && !anim.isPlaying)
+                    if (AreClosed)
                     {
                         anim.Play("Door_Open");
-                        doorState = DoorState.Opened;
+                        SetStateToOpened();
                     }
 
-                    if (doorState == DoorState.Opened && !anim.isPlaying)
+                    if (AreOpened)
                     {
                         anim.Play("Door_Close");
-                        doorState = DoorState.Closed;
+                        SetStateToClosed();
                     }
                 }
             }
         }
+    }
+    private bool IsAnimOpenComingToEnd
+    {
+        get { return anim["Door_Open"].time > doorAnimOpenHasOpened; }
+    }
+    private bool IsAnimCloseComingToEnd
+    {
+        get { return anim["Door_Close"].time > doorAnimOpenHasClosed; }
+    }
+    private void CalculateStateOfAnimationsThatComingToEnd()
+    {
+        doorAnimOpenHasOpened = (anim["Door_Open"].length / 100) * animEnd;
+        doorAnimOpenHasClosed = (anim["Door_Close"].length / 100) * animEnd;
+    }
+    private void SetStateToOpened()
+    {
+        doorState = DoorState.Opened;
+    }
+    private void SetStateToClosed()
+    {
+        doorState = DoorState.Closed;
+    }
+    private bool AreClosed
+    {
+        get { return doorState == DoorState.Closed && !anim.isPlaying; }
+    }
+    private bool AreOpened
+    {
+        get { return doorState == DoorState.Opened && !anim.isPlaying; }
     }
 }
