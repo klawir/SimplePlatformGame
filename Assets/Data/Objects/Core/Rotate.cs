@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Keys : MonoBehaviour
+public class Rotate : MonoBehaviour
 {
     public Vector3 rotate;
 

@@ -27,6 +27,7 @@ public class Keyboard : MonoBehaviour
             || Input.GetKey(KeyCode.D))
                 movement.Execute();
             doubleJump.Reset();
+            playersObj.KeyJumpWallFaded();
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {

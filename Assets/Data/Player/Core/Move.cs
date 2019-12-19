@@ -5,4 +5,5 @@ using UnityEngine;
 public class Move : MonoBehaviour
 {
     public static Vector3 pos;
+    public static Vector3 translateFromWall;
 }

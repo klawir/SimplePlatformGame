@@ -1162,16 +1162,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2396843646805265069, guid: 1a40446a53210f74ba6b10dd04b55a6e,
+    - target: {fileID: 6040197098297517514, guid: 1a40446a53210f74ba6b10dd04b55a6e,
         type: 3}
-      propertyPath: rotate.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2396843646805200212, guid: 1a40446a53210f74ba6b10dd04b55a6e,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: txtToDisplay
+      value: 
+      objectReference: {fileID: 1410571972}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a40446a53210f74ba6b10dd04b55a6e, type: 3}
 --- !u!1 &1308403123
@@ -1201,7 +1196,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308403123}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -4.0999985, y: 5.225, z: -12.406998}
+  m_LocalPosition: {x: -4.8, y: 5.225, z: -12.406998}
   m_LocalScale: {x: 9.699353, y: 9.173109, z: 1}
   m_Children: []
   m_Father: {fileID: 1386445840}
@@ -1472,7 +1467,7 @@ GameObject:
   - component: {fileID: 1730141820}
   - component: {fileID: 1730141821}
   - component: {fileID: 1730141822}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: item detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1504,8 +1499,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.6437888, z: 1}
-  m_Center: {x: 0, y: 0.3218944, z: 0.100000024}
+  m_Size: {x: 2, y: 0.6437888, z: 2}
+  m_Center: {x: 0, y: 0.3218944, z: 0}
 --- !u!114 &1730141822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1725,6 +1720,7 @@ GameObject:
   - component: {fileID: 4773869957569930}
   - component: {fileID: 65792051570325138}
   - component: {fileID: 114400654936240162}
+  - component: {fileID: 1437824459324329}
   m_Layer: 0
   m_Name: DoorZone
   m_TagString: Untagged
@@ -1732,6 +1728,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1437824459324329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437824459324328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0000ddff63853b344b970e1c2d4bde2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txtToDisplay: {fileID: 1410571972}
+  txtToDisplayState: {fileID: 462333351}
 --- !u!1 &1580955081327424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2670,8 +2680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 150cf7940ab0e6c4bbaf184a87998a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txtToDisplay: {fileID: 1410571972}
-  txtToDisplayState: {fileID: 462333351}
+  anim: {fileID: 111727104519722984}
+  gui: {fileID: 1437824459324329}
 --- !u!205 &205746684554975174
 LODGroup:
   m_ObjectHideFlags: 0

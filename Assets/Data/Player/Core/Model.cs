@@ -10,13 +10,15 @@ public class Model : MonoBehaviour
     public float gravity;
     private bool isgrounded;
     private bool hasTouchedWall;
+    private bool keyJumpWall;
     
     private void Update()
     {
         if(transform.rotation.x!=0)
             transform.eulerAngles = new Vector3(0, 180, 0);
-        if (!IsGrounded)
+        if (!isgrounded && !hasTouchedWall || keyJumpWall)
             transform.Translate(-Move.pos);
+
     }
     void FixedUpdate()
     {
@@ -28,7 +30,11 @@ public class Model : MonoBehaviour
         if (col.gameObject.name == "Terrain")
             isgrounded = true;
         if (col.gameObject.name == "wall")
+        {
             hasTouchedWall = true;
+            Move.translateFromWall = Move.pos;
+            Move.pos = Vector3.zero;
+        }
     }
     
     void OnCollisionExit(Collision col)
@@ -40,11 +46,16 @@ public class Model : MonoBehaviour
     }
     public void WallJump()
     {
-        Move.pos = Move.pos * (- 1) ;
+        Move.pos = Move.translateFromWall * (- 1) ;
+        keyJumpWall = true;
     }
     public void TakeKey()
     {
         Instantiate(key, hand);
+    }
+    public void KeyJumpWallFaded()
+    {
+        keyJumpWall=false;
     }
     public bool HasKey
     {
