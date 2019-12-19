@@ -9,13 +9,13 @@ public class Keyboard : MonoBehaviour
     
     private Command movement;
     private Command jump;
-    private DoubleJump doubleJump;
+    private Jump doubleJump;
 
     private void Start()
     {
         movement = new Movement(playerTransf);
         jump = new Jump(playersObj.gameObject);
-        doubleJump = new DoubleJump(playersObj.gameObject);
+        doubleJump = new Jump(playersObj.gameObject);
     }
     void Update()
     {

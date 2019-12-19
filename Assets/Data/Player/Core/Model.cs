@@ -11,14 +11,19 @@ public class Model : MonoBehaviour
     private bool isgrounded;
     private bool hasTouchedWall;
     private bool keyJumpWall;
-    
+    private Vector3 originalRotateState;
+
+    private void Start()
+    {
+        originalRotateState = Vector3.zero;
+    }
+
     private void Update()
     {
-        if(transform.rotation.x!=0)
-            transform.eulerAngles = new Vector3(0, 180, 0);
-        if (!isgrounded && !hasTouchedWall || keyJumpWall)
-            transform.Translate(-Move.pos);
-
+        if (IsAskew)
+            ResetRotate();
+        if (IsInTheAir || keyJumpWall)
+            transform.Translate(Move.movementPos);
     }
     void FixedUpdate()
     {
@@ -28,12 +33,14 @@ public class Model : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.name == "Terrain")
+        {
             isgrounded = true;
+            Move.Reset();
+        }
         if (col.gameObject.name == "wall")
         {
             hasTouchedWall = true;
-            Move.translateFromWall = Move.pos;
-            Move.pos = Vector3.zero;
+            Move.InitWallCollision();
         }
     }
     
@@ -44,9 +51,21 @@ public class Model : MonoBehaviour
         if (col.gameObject.name == "wall")
             hasTouchedWall = false;
     }
+    public bool IsInTheAir
+    {
+        get { return !isgrounded && !hasTouchedWall; }
+    }
+    private bool IsAskew
+    {
+        get { return transform.rotation.x != 0; }
+    }
+    private void ResetRotate()
+    {
+        transform.eulerAngles = originalRotateState;
+    }
     public void WallJump()
     {
-        Move.pos = Move.translateFromWall * (- 1) ;
+        Move.movementPos = Move.movementRefFromWall * (- 1);
         keyJumpWall = true;
     }
     public void TakeKey()
