@@ -1,4 +1,4 @@
-# Please develop a simple platformer game with the following functionality:
+Please develop a simple platformer game with the following functionality:
 
 - moving left and right
 - jump
