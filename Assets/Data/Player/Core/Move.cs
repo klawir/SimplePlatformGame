@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    public static Vector3 movementPos;
+    public static Vector3 movementVector;
     public static Vector3 movementRefFromWall;
+
     public static void Reset()
     {
-        movementPos = Vector3.zero;
+        movementVector = Vector3.zero;
     }
     private static void PrepareForWallJump()
     {
-        movementRefFromWall = movementPos;
+        movementRefFromWall = movementVector;
+    }
+    public static void WallJump()
+    {
+        movementVector = movementRefFromWall * (-1);
     }
     private static void StopMovement()
     {
-        movementPos = Vector3.zero;
+        movementVector = Vector3.zero;
     }
     public static void InitWallCollision()
     {

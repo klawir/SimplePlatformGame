@@ -5,7 +5,7 @@ using UnityEngine;
 public class Keyboard : MonoBehaviour
 {
     public GameObject playerTransf;
-    public Model playersObj;
+    public Model playersModel;
     
     private Command movement;
     private Command jump;
@@ -13,13 +13,13 @@ public class Keyboard : MonoBehaviour
 
     private void Start()
     {
-        movement = new Movement(playerTransf);
-        jump = new Jump(playersObj.gameObject);
-        doubleJump = new Jump(playersObj.gameObject);
+        movement = new Movement(playerTransf, playersModel);
+        jump = new Jump(playersModel.gameObject);
+        doubleJump = new Jump(playersModel.gameObject);
     }
     void Update()
     {
-        if (playersObj.IsGrounded)
+        if (playersModel.IsGrounded)
         {
             if (Input.GetKey(KeyCode.W)
                 || Input.GetKey(KeyCode.A)
@@ -28,14 +28,13 @@ public class Keyboard : MonoBehaviour
                 movement.Execute();
 
             doubleJump.Reset();
-            playersObj.KeyJumpWallFaded();
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jump.Execute();
             doubleJump.Execute();
-            if (playersObj.HasTouchedWall)
-                playersObj.WallJump();
+            if (playersModel.HasTouchedWall)
+                playersModel.WallJump();
         }
     }
 }

@@ -7,19 +7,33 @@ public class Model : MonoBehaviour
     public Transform hand;
     public GameObject key;
     public Rigidbody rigidbody;
+    public Player player;
+
+    public AnimationClip idle;
+    public AnimationClip movement;
+    public Animation animation;
+
     public float gravity;
-    private bool isgrounded;
+    private bool isGrounded;
     private bool hasTouchedWall;
     private bool keyJumpWall;
 
     private void Update()
-    {
-        if (IsAskew)
-            ResetRotate();
+    {  
+        if (!(Input.GetKey(KeyCode.W)
+                || Input.GetKey(KeyCode.A)
+                || Input.GetKey(KeyCode.S)
+                || Input.GetKey(KeyCode.D)))
+            animation.Play(idle.name);
+
         if (IsInTheAir || keyJumpWall)
-            transform.Translate(Move.movementPos);
-        if(isgrounded)
-            RotateCalc();
+        {
+            player.UpdatePos();
+            if(IsAskew)
+                UpdateRotation();
+        }
+        if (isGrounded)
+            KeyJumpWallFaded();
     }
     void FixedUpdate()
     {
@@ -30,7 +44,7 @@ public class Model : MonoBehaviour
     {
         if (col.gameObject.name == "Terrain")
         {
-            isgrounded = true;
+            isGrounded = true;
             Move.Reset();
         }
         if (col.gameObject.name == "wall")
@@ -43,35 +57,29 @@ public class Model : MonoBehaviour
     void OnCollisionExit(Collision col)
     {
         if (col.gameObject.name == "Terrain")
-            isgrounded = false;
+            isGrounded = false;
         if (col.gameObject.name == "wall")
             hasTouchedWall = false;
     }
-    private void RotateCalc()
+    public void PlayMoveAnim()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        transform.rotation = Quaternion.LookRotation(movement);
-
-        transform.Translate(movement * 5 * Time.deltaTime, Space.World);
+        animation.Play(movement.name);
+    }
+    public void UpdateRotation()
+    {
+        transform.rotation = Quaternion.LookRotation(Move.movementVector);
     }
     public bool IsInTheAir
     {
-        get { return !isgrounded && !hasTouchedWall; }
+        get { return !isGrounded && !hasTouchedWall; }
     }
     private bool IsAskew
     {
-        get { return transform.rotation.x != 0; }
-    }
-    private void ResetRotate()
-    {
-        transform.eulerAngles = Vector3.zero;
+        get { return transform.rotation.x!=0; }
     }
     public void WallJump()
     {
-        Move.movementPos = Move.movementRefFromWall * (- 1);
+        Move.WallJump();
         keyJumpWall = true;
     }
     public void TakeKey()
@@ -88,7 +96,7 @@ public class Model : MonoBehaviour
     }
     public bool IsGrounded
     {
-        get { return isgrounded; }
+        get { return isGrounded; }
     }
     public bool HasTouchedWall
     {
